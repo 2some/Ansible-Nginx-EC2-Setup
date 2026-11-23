@@ -1,0 +1,5 @@
+*.pem
+*.key
+ansible.cfg
+.retry
+_pycache_/

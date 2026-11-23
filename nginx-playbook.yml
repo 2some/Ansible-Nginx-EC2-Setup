@@ -1,0 +1,37 @@
+---
+- name: Configure Nginx web server
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade installed packages
+      apt:
+        upgrade: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Deploy custom web page
+      copy:
+        content: |
+          <html>
+          <head><title>Ansible Nginx Project</title></head>
+          <body>
+          <h1>Welcome to my Ansible Nginx Server!</h1>
+          <p>Successfully deployed using Ansible on AWS EC2.</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+        mode: '0644'
